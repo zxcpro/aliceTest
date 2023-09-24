@@ -9,7 +9,7 @@ public class LetterCombinations {
 
     /*
     给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
-    给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+    给出数字到字母的映射如下（与电话按键9宫格相同，1没有任何字母，7、9对4个，其余对3个字母）。
     示例 1：
     输入：digits = "23"
     输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
@@ -26,7 +26,11 @@ public class LetterCombinations {
         put('9', "wxyz");
     }};
 
-    //办法1 动态规划
+    //回溯算法  digits 是数字串
+    /*
+    时间复杂度：O(3^m * 4^n)，m是3个字母的数字个数，n是4个字母的数字个数
+    空间复杂度：O(m+n)，其中 m 是输入中对应 3 个字母的数字个数，n 是输入中对应 4 个字母的数字个数
+     */
     public List<String> letterCombinations(String digits) {
         List<String> res = new ArrayList<String>();
         if (digits.length() == 0) {
@@ -51,40 +55,10 @@ public class LetterCombinations {
         }
     }
 
-    //回溯+队列 感觉这个不好
-    public List<String> letterCombinations2(String digits) {
-        if (digits == null || digits.length() == 0) {
-            return new ArrayList<String>();
-        }
-        //一个映射表，第二个位置是"abc“,第三个位置是"def"。。。
-        List<String> res = new ArrayList<>();
-        //先往队列中加入一个空字符
-        res.add("");
-        for (int i = 0; i < digits.length(); i++) {
-            //由当前遍历到的字符，取字典表中查找对应的字符串
-            String letters = phoneMap.get(digits.charAt(i));
-            int size = res.size();
-            //计算出队列长度后，将队列中的每个元素挨个拿出来
-            for (int j = 0; j < size; j++) {
-                //每次都从队列中拿出第一个元素
-                String tmp = res.remove(0);
-                //然后跟"def"这样的字符串拼接，并再次放到队列中
-                for (int k = 0; k < letters.length(); k++) {
-                    res.add(tmp + letters.charAt(k));
-                }
-            }
-        }
-        return res;
-    }
-
     public static void main(String[] args) {
         LetterCombinations combinations = new LetterCombinations();
         List<String> strings = combinations.letterCombinations("2345");
         System.out.println(strings);
     }
-
-    /*
-
-     */
 
 }

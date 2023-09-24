@@ -6,8 +6,7 @@ public class CommonTool {
         int val;
         ListNode next;
 
-        public ListNode() {
-        }
+        public ListNode() {}
 
         public ListNode(int val) {
             this.val = val;
@@ -20,13 +19,13 @@ public class CommonTool {
     }
 
 
+
     public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
 
-        TreeNode() {
-        }
+        TreeNode() {}
 
         TreeNode(int val) {
             this.val = val;

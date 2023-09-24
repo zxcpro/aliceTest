@@ -1,5 +1,7 @@
 package com.guoyi;
 
+import com.guoyi.CommonTool.ListNode;
+
 public class AddTwoNumbers {
 
     /*
@@ -27,29 +29,40 @@ public class AddTwoNumbers {
     题目数据保证列表表示的数字不含前导零
      */
 
+    /*
+    时间复杂度：O(max⁡(m,n))，其中 m 和 n 分别为两个链表的长度。我们要遍历两个链表的全部位置，而处理每个位置只需要 O(1) 的时间。
+    空间复杂度：O(1)。注意返回值不计入空间复杂度。
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode pre = new ListNode(0);
-        ListNode cur = pre;
-        int carry = 0;
-        while(l1 != null || l2 != null) {
-            int x = l1 == null ? 0 : l1.val;
-            int y = l2 == null ? 0 : l2.val;
-            int sum = x + y + carry;
-
+        ListNode head = null;
+        ListNode tail = null;
+        int carry = 0;//记录进位
+        while (l1 != null || l2 != null) {
+            int n1 = l1 != null ? l1.val : 0;
+            int n2 = l2 != null ? l2.val : 0;
+            int sum = n1 + n2 + carry;
+            if (head == null) {
+                //如果是第一个数，初始化head和tail
+                // sum余10，余数的就是非进位的数字
+                head = tail = new ListNode(sum % 10);
+            } else {
+                tail.next = new ListNode(sum % 10);
+                tail = tail.next;
+            }
+            //sum除10，0或者1，记录进位
             carry = sum / 10;
-            sum = sum % 10;
-            cur.next = new ListNode(sum);
-
-            cur = cur.next;
-            if(l1 != null)
+            if (l1 != null) {
                 l1 = l1.next;
-            if(l2 != null)
+            }
+            if (l2 != null) {
                 l2 = l2.next;
+            }
         }
-        if(carry == 1) {
-            cur.next = new ListNode(carry);
+        //如果最后有进位，那么再加一个节点记录进位1
+        if (carry > 0) {
+            tail.next = new ListNode(carry);
         }
-        return pre.next;
+        return head;
     }
 
 
@@ -82,7 +95,7 @@ public class AddTwoNumbers {
 
         if(sum >= 10) {
             increase = true;
-            sum %= 10;
+            sum = sum%10;
         } else {
             increase = false;
         }
@@ -92,53 +105,8 @@ public class AddTwoNumbers {
                 l1 != null ? l1.next : null,
                 l2 != null ? l2.next : null, increase);
         return current;
-
     }
 
-
-    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
-        ListNode head = null, tail = null;
-        int carry = 0;
-        while (l1 != null || l2 != null) {
-            int n1 = l1 != null ? l1.val : 0;
-            int n2 = l2 != null ? l2.val : 0;
-            int sum = n1 + n2 + carry;
-            if (head == null) {
-                head = tail = new ListNode(sum % 10);
-            } else {
-                tail.next = new ListNode(sum % 10);
-                tail = tail.next;
-            }
-            carry = sum / 10;
-            if (l1 != null) {
-                l1 = l1.next;
-            }
-            if (l2 != null) {
-                l2 = l2.next;
-            }
-        }
-        if (carry > 0) {
-            tail.next = new ListNode(carry);
-        }
-        return head;
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        public ListNode() {
-        }
-
-        public ListNode(int val) {
-            this.val = val;
-        }
-
-        public ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     public static void main(String[] args) {
 
