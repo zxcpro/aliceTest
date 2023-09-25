@@ -76,7 +76,6 @@ public class AddTwoNumbers {
     }
 
     public ListNode plusNextNode(ListNode l1, ListNode l2, boolean increase) {
-
         //注意空节点
         //selectNextNode(l1, l2)
         //如果二者都不为空，则二者和+increase生成新节点
@@ -99,7 +98,6 @@ public class AddTwoNumbers {
         } else {
             increase = false;
         }
-
         ListNode current = new ListNode(sum);
         current.next = plusNextNode(
                 l1 != null ? l1.next : null,
@@ -107,9 +105,7 @@ public class AddTwoNumbers {
         return current;
     }
 
-
     public static void main(String[] args) {
-
         ListNode l1 = new ListNode(3);
         l1.next = new ListNode(4);
         l1.next.next = new ListNode(7);

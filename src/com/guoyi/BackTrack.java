@@ -19,7 +19,6 @@ public class BackTrack {
         return res;
     }
 
-
     void backtrack(List<Integer> state, int[] choices, boolean[] selected, List<List<Integer>> res) {
         // 当状态长度等于元素数量时，记录解
         if (state.size() == choices.length) {
@@ -84,5 +83,6 @@ public class BackTrack {
         List<List<Integer>> res2 = bt.permutationsII(nums);
         System.out.println(res1 + "+" + res2);
     }
+
 
 }
