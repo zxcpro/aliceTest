@@ -72,7 +72,6 @@ public class AddTwoNumbers {
         //注意考虑最后一个节点有进位时，最后还需要一个节点为1
         boolean increase = false;
         return plusNextNode(l1, l2, increase);
-
     }
 
     public ListNode plusNextNode(ListNode l1, ListNode l2, boolean increase) {
