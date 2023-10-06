@@ -17,36 +17,38 @@ public class TwoSum {
     解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
      */
 
-    public int[] twoSum1(int[] nums, int target) {
-        int n = nums.length;
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
-                if (nums[i] + nums[j] == target) {
-                    return new int[]{i, j};
-                }
-            }
-        }
-        return new int[0];
-    }
-
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
         for (int i = 0; i < nums.length; ++i) {
             if (hashMap.containsKey(target - nums[i])) {
                 return new int[]{hashMap.get(target - nums[i]), i};
             }
+            //先判断完再存，就保证了不会把当前值用两次
             hashMap.put(nums[i], i);
         }
         return new int[0];
     }
 
-
-    public int sumTest(int n) {
-        int sum = 0;
-        int i = 0;
-        for (i = 1; i <= n; ++i) {
-            sum = sum + i;
+    //这是错误的，会重复取用
+    public int[] twoSum1(int[] nums, int target) {
+        Map<Integer,Integer> map = new HashMap<>();
+        //这样会重复使用，上面的方法，记录着取用着，就不会重复
+        for(int i = 0;i<nums.length;i++){
+            map.put(nums[i],i);
         }
-        return sum;
+
+        for(int i = 0;i<nums.length;i++){
+            if(map.containsKey(target-nums[i])){
+                return new int[]{i,map.get(target-nums[i])};
+            }
+        }
+        return new int[0];
+    }
+
+
+    public static void main(String[] args) {
+        TwoSum twoSum = new TwoSum();
+        int[] ints = twoSum.twoSum(new int[]{3,2,4}, 6);
+        System.out.println(ints[0]+","+ints[1]);
     }
 }
