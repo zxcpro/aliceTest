@@ -19,9 +19,57 @@ public class ThreeSum {
     nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
     不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。
     注意，输出的顺序和三元组的顺序并不重要。
+    解法：双指针，难点是结果集不要重复，所以控制位置first < second < third
      */
 
+
     public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums.length;
+        //当前数组的长度为空，或者长度小于3时，直接退出
+        if (nums == null || n < 3) {
+            return ans;
+        }
+        Arrays.sort(nums);
+
+        for (int first = 0; first < n; ++first) {
+            if (nums[first] > 0) {
+                break;
+            }
+            // 需要和上一次枚举的数不相同
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                continue;
+            }
+            // c 对应的指针初始指向数组的最右端
+            int third = n - 1;
+            // 枚举 b
+            for (int second = first + 1; second < n; ++second) {
+                // 需要和上一次枚举的数不相同
+                if (second > first + 1 && nums[second] == nums[second - 1]) {
+                    continue;
+                }
+                // 需要保证 b 的指针在 c 的指针的左侧
+                while (second < third && nums[second] + nums[third] > -nums[first]) {
+                    --third;
+                }
+                // 如果指针重合，随着 b 后续的增加
+                // 就不会有满足 a+b+c=0 并且 b<c 的 c 了，可以退出循环
+                if (second == third) {
+                    break;
+                }
+                if (nums[second] + nums[third] == -nums[first]) {
+                    List<Integer> list = new ArrayList<Integer>();
+                    list.add(nums[first]);
+                    list.add(nums[second]);
+                    list.add(nums[third]);
+                    ans.add(list);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> threeSum1(int[] nums) {
         //定义一个结果集
         List<List<Integer>> res = new ArrayList<>();
         //数组的长度
@@ -33,27 +81,27 @@ public class ThreeSum {
         //将数组进行排序
         Arrays.sort(nums);
         //遍历数组中的每一个元素
-        for (int i = 0; i < len; i++) {
+        for (int first = 0; first < len; first++) {
             //如果遍历的起始元素大于0，就直接退出
             //原因，此时数组为有序的数组，最小的数都大于0了，三数之和肯定大于0
-            if (nums[i] > 0) {
+            if (nums[first] > 0) {
                 break;
             }
             //去重，当起始的值等于前一个元素，那么得到的结果将会和前一次相同
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-            int l = i + 1;
+            if (first > 0 && nums[first] == nums[first - 1]) continue;
+            int l = first + 1;
             int r = len - 1;
             //当 l 不等于 r时就继续遍历
             while (l < r) {
                 //将三数进行相加
-                int sum = nums[i] + nums[l] + nums[r];
+                int sum = nums[first] + nums[l] + nums[r];
                 //如果等于0，将结果对应的索引位置的值加入结果集中
                 if (sum == 0) {
                     // 将三数的结果集加入到结果集中
-                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    res.add(Arrays.asList(nums[first], nums[l], nums[r]));
                     //在将左指针和右指针移动的时候，先对左右指针的值，进行判断
                     //如果重复，直接跳过。
-                    //去重，因为 i 不变，当此时 l取的数的值与前一个数相同，所以不用在计算，直接跳
+                    //去重，因为 first 不变，当此时 l取的数的值与前一个数相同，所以不用在计算，直接跳
                     while (l < r && nums[l] == nums[l + 1]) {
                         l++;
                     }
