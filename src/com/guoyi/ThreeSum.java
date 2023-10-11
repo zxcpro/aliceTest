@@ -155,12 +155,5 @@ public class ThreeSum {
         return i == n;
     }
 
-
-    /*
-    接雨水双指针解法的思路：
-    每一个柱子能接的水=min（左右两边最高柱子）-当前柱子的高度
-    leftMax就是每个柱子左边最高
-    rightMax就是每个柱子右边最高
-     */
 }
 
