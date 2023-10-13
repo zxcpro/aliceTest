@@ -18,7 +18,7 @@ public class LengthOfLongestSubstring {
     /*
     滑动窗口解法
     时间复杂度：O(n)
-    空间复杂度：O(1)
+    空间复杂度：O(∣Σ∣)
 
     1、首先，判断当前字符是否包含在map中，如果不包含，将该字符添加到map（字符，字符在数组下标）,
     此时没有出现重复的字符，左指针不需要变化。此时不重复子串的长度为：i-left+1，与原来的maxLen比较，取最大值；
@@ -33,45 +33,26 @@ public class LengthOfLongestSubstring {
     另外，更新left后，不管原来的 s.charAt(i) 是否在最长子段中，我们都要将 s.charAt(i) 的位置更新为当前的i，
     因此此时新的 s.charAt(i) 已经进入到 当前最长的子段中！
     */
-    public int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0) return 0;
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        int maxLen = 0;
-        int left = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (map.containsKey(s.charAt(i))) {
-                left = Math.max(left, map.get(s.charAt(i)) + 1);
-            }
-            //不管是否更新left，都要更新 s.charAt(i) 的位置！
-            map.put(s.charAt(i), i);
-            maxLen = Math.max(maxLen, i - left + 1);
-        }
-        return maxLen;
-    }
-
-/*
-更标准的滑动窗口
-时间O（n），空间O(∣Σ∣)，就是
- */
-    public int lengthOfLongestSubstring1(String str) {
+    public int lengthOfLongestSubstring(String str) {
         int n = str.length(), ans = 0;
         Map<Character, Integer> map = new HashMap<>();
         for (int end = 0, start = 0; end < n; end++) {
-            char alpha = str.charAt(end);
-            if (map.containsKey(alpha)) {
-                start = Math.max(map.get(alpha), start);
+            char cur = str.charAt(end);
+            if (map.containsKey(cur)) {
+                start = Math.max(map.get(cur), start);
             }
             ans = Math.max(ans, end - start + 1);
-            map.put(str.charAt(end), end + 1);
+            //不管是否更新left，都要更新 s.charAt(i) 的位置！
+            map.put(str.charAt(end), end +1);
         }
         return ans;
     }
 
 
     public static void main(String[] args) {
-        String str = new String("abb");
+        String str = new String("abbcab");
         LengthOfLongestSubstring lols = new LengthOfLongestSubstring();
-        int i = lols.lengthOfLongestSubstring1(str);
+        int i = lols.lengthOfLongestSubstring(str);
         System.out.println(i);
     }
 
