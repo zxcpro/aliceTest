@@ -2,6 +2,7 @@ package com.guoyi;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class LengthOfLongestSubstring {
 
@@ -53,24 +54,15 @@ public class LengthOfLongestSubstring {
 时间O（n），空间O(∣Σ∣)，就是
  */
     public int lengthOfLongestSubstring1(String str) {
-        // 哈希集合，记录每个字符是否出现过
-        HashSet<Character> strSet = new HashSet<Character>();
-        int length = str.length();
-        // 右指针，初始值为 0
-        int rk = 0, ans = 0;
-        for (int i = 0; i < length; i++) {
-            if (i != 0) {
-                // 左指针向右移动一格，向右移除str字符一位
-                strSet.remove(str.charAt(i - 1));
+        int n = str.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int end = 0, start = 0; end < n; end++) {
+            char alpha = str.charAt(end);
+            if (map.containsKey(alpha)) {
+                start = Math.max(map.get(alpha), start);
             }
-            //右指针还没有到最后&&当前右指针的字符已经不在字符集合里了，说明已经移除掉重复字符了
-            while (rk < length && !strSet.contains(str.charAt(rk))) {
-                // 不断地移动右指针
-                strSet.add(str.charAt(rk));
-                rk++;
-            }
-            // 第 i 到 rk 个字符是一个极长的无重复字符子串
-            ans = Math.max(ans, rk - i);
+            ans = Math.max(ans, end - start + 1);
+            map.put(str.charAt(end), end + 1);
         }
         return ans;
     }
