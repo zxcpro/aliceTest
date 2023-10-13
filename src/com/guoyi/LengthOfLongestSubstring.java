@@ -48,7 +48,6 @@ public class LengthOfLongestSubstring {
         return ans;
     }
 
-
     public static void main(String[] args) {
         String str = new String("abbcab");
         LengthOfLongestSubstring lols = new LengthOfLongestSubstring();
