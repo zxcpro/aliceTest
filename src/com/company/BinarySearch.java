@@ -32,6 +32,5 @@ public class BinarySearch {
     public static void main(String[] args) {
         int[] sortedList = {1,2,5,8,11,15,25};
         System.out.println(binarySearch(sortedList, 5, 0, sortedList.length - 1));
-
     }
 }
