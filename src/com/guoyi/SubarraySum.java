@@ -19,6 +19,8 @@ public class SubarraySum {
     输出：2
      */
 
+    //前缀和+哈希优化，时间复杂度、空间复杂度都是O（n）
+    //https://leetcode.cn/problems/subarray-sum-equals-k/solutions/238572/he-wei-kde-zi-shu-zu-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked
     public int subarraySum(int[] nums, int k) {
         int count = 0;
         int pre = 0;
@@ -34,6 +36,7 @@ public class SubarraySum {
         }
         return count;
     }
+
 
     public static void main(String[] args) {
         int[] nums = {1,3};
