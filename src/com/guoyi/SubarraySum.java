@@ -23,16 +23,16 @@ public class SubarraySum {
     //https://leetcode.cn/problems/subarray-sum-equals-k/solutions/238572/he-wei-kde-zi-shu-zu-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked
     public int subarraySum(int[] nums, int k) {
         int count = 0;
-        int pre = 0;
-        HashMap<Integer,Integer> map = new HashMap<>();
-        map.put(0,1);
+        int preSum = 0;
+        HashMap<Integer,Integer> preSumFreq = new HashMap<>();
+        preSumFreq.put(0,1);
         for(int i = 0;i<nums.length;i++){
-            pre = pre + nums[i];
-            if(map.containsKey(pre-k)){
-                count = map.get(pre-k) + 1;
+            preSum = preSum + nums[i];
+            if(preSumFreq.containsKey(preSum-k)){
+                count = count + preSumFreq.get(preSum - k);
 
             }
-            map.put(pre,map.getOrDefault(pre,0)+1);
+            preSumFreq.put(preSum,preSumFreq.getOrDefault(preSum,0)+1);
         }
         return count;
     }
