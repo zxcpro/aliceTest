@@ -24,22 +24,24 @@ public class SubarraySum {
     public int subarraySum(int[] nums, int k) {
         int count = 0;
         int preSum = 0;
-        HashMap<Integer,Integer> preSumFreq = new HashMap<>();
-        preSumFreq.put(0,1);
-        for(int i = 0;i<nums.length;i++){
+        //key是前缀和 value是key对应的前缀和的个数
+        HashMap<Integer, Integer> preSumFreq = new HashMap<>();
+        // 对于下标为 0 的元素，前缀和为 0，个数为 1，初始状态
+        preSumFreq.put(0, 1);
+        for (int i = 0; i < nums.length; i++) {
             preSum = preSum + nums[i];
-            if(preSumFreq.containsKey(preSum-k)){
+            if (preSumFreq.containsKey(preSum - k)) {
                 count = count + preSumFreq.get(preSum - k);
 
             }
-            preSumFreq.put(preSum,preSumFreq.getOrDefault(preSum,0)+1);
+            preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
         }
         return count;
     }
 
 
     public static void main(String[] args) {
-        int[] nums = {1,3};
+        int[] nums = {1, 3};
         SubarraySum subarraySum = new SubarraySum();
         int n = subarraySum.subarraySum(nums, 4);
         System.out.println(n);
