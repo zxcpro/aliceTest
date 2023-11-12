@@ -11,6 +11,9 @@ public class MaxSubArray {
     示例 2：
     输入：nums = [5,4,-1,7,8]
     输出：23
+
+    动态规划：无后效行
+    只输出结果，不需要记录子序列，可以用滚动变量表达
      */
     public int maxSubArray(int[] nums) {
         int pre = 0;
