@@ -31,6 +31,7 @@ public class SubarraySum {
         for (int i = 0; i < nums.length; i++) {
             preSum = preSum + nums[i];
             if (preSumFreq.containsKey(preSum - k)) {
+                //前缀和-目标值=某个前缀和，说明这个差量的都是符合条件的目标子序列
                 count = count + preSumFreq.get(preSum - k);
 
             }
@@ -41,7 +42,7 @@ public class SubarraySum {
 
 
     public static void main(String[] args) {
-        int[] nums = {1, 3};
+        int[] nums = {1, 3, 1, 0};
         SubarraySum subarraySum = new SubarraySum();
         int n = subarraySum.subarraySum(nums, 4);
         System.out.println(n);
