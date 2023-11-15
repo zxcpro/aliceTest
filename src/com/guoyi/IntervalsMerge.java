@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class IntervalsMerge {
 
     /*
+    https://mp.weixin.qq.com/s/ioUlNa4ZToCrun3qb4y4Ow
     56、合并区间
     以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
     示例 1：
@@ -24,10 +25,11 @@ public class IntervalsMerge {
         int[][] res = new int[intervals.length][2];
         int idx = -1;
         for (int[] interval : intervals) {
-            // 如果结果数组是空的，或者当前区间的起始位置 > 结果数组中最后区间的终止位置，
+            // 如果结果数组是空的，或者当前区间的起始位置 > 结果数组中最后区间的终止位置，说明不重叠
             // 则不合并，直接将当前区间加入结果数组。
             if (idx == -1 || interval[0] > res[idx][1]) {
-                res[++idx] = interval;
+                idx++;
+                res[idx] = interval;
             } else {
                 // 反之将当前区间合并至结果数组的最后区间
                 res[idx][1] = Math.max(res[idx][1], interval[1]);
@@ -42,6 +44,9 @@ public class IntervalsMerge {
         int[] int3 = new int[]{7, 9};
         int[] int4 = new int[]{8, 10};
         int[][] intervals = new int[][]{int2, int1, int3, int4};
+        IntervalsMerge intervalsMerge = new IntervalsMerge();
+        int[][] merge = intervalsMerge.merge(intervals);
+        System.out.println(merge.toString());
 
     }
 
