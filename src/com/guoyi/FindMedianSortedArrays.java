@@ -41,4 +41,40 @@ public class FindMedianSortedArrays {
             return right;
     }
 
+    /*
+    自己写的
+     */
+    public double findMiddleKey(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int len = n + m;
+        int left = -1, right = -1;
+        int start1 = 0, start2 = 0;
+        for (int i = 0; i < len / 2 + 1; i++) {
+            left = right;
+            if (start1 < m && (start2 >= n || nums1[start1] <= nums2[start2])) {
+                right = nums1[start1++];
+            } else {
+                right = nums2[start2++];
+            }
+        }
+
+        if ((len & 1) == 0) {
+            return (left + right) / 2.0;
+        } else {
+            return right;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        FindMedianSortedArrays findMedianSortedArrays = new FindMedianSortedArrays();
+        int[] num1 = {0, 0};
+        int[] num2 = {0, 0};
+        int[] num3 = {2};
+        int[] num4 = {};
+        double test = findMedianSortedArrays.findMiddleKey(num3, num4);
+        System.out.println(test);
+    }
+
 }
