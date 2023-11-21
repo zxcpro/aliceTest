@@ -24,9 +24,12 @@ public class LongestPalindromicSubString {
     //https://leetcode.cn/problems/longest-palindromic-substring/solutions/9001/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-bao-gu/
     public static String longestPalindrome(String s) {
         if (s == null || s.length() < 1) return "";
+        //回文串左边start，右边end
         int start = 0, end = 0;
         for (int i = 0; i < s.length(); i++) {
+            //奇数
             int len1 = expandAroundCenter(s, i, i);
+            //偶数
             int len2 = expandAroundCenter(s, i, i + 1);
             int len = Math.max(len1, len2);
             if (len > end - start ) {
