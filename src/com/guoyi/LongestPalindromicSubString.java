@@ -37,11 +37,13 @@ public class LongestPalindromicSubString {
                     start = i - (len - 1) / 2;
                     end = i + (len-1) / 2;
                 }else{
+                    //偶数时候，基准在中间两个数的第1个数，所以要少减多加
                     start = i - (len - 2) / 2;
                     end = i + len/ 2 ;
                 }
             }
         }
+        //substring是截取到第二个参数的前1位，所以要+1，比如[2,4)，就是2,3
         return s.substring(start, end + 1);
     }
 
@@ -51,6 +53,7 @@ public class LongestPalindromicSubString {
             l--;
             r++;
         }
+        //其实是 r -1 - （l + 1） +1 = r -l -1;
         return r - l - 1;
     }
 
