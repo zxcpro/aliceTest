@@ -37,7 +37,7 @@ public class Convert {
             return s;
         }
         //初始化行数的字符串
-        List<StringBuilder> rows = new ArrayList<StringBuilder>();
+        List<StringBuilder> rows = new ArrayList<>();
         for (int i = 0; i < numRows; i++) {
             rows.add(new StringBuilder());
         }
