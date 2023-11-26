@@ -28,6 +28,7 @@ public class ReverseNumber {
     考虑范围就要考虑不大于最大值，不小于最小值，超过的就返回溢出
     每次取余数，然后当前数除以10去掉最后1位，继续
     结果res = 当前res*10 + 最新余数
+    https://leetcode.cn/problems/reverse-integer/solutions/7429/hua-jie-suan-fa-7-zheng-shu-fan-zhuan-by-guanpengc/
      */
     public int reverse(int x) {
         int res = 0;
