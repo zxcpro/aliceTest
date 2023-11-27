@@ -26,11 +26,11 @@ public class StrToInt {
         for (int j = i; j < c.length; j++) {
             //如果不允许有非数字，那就直接break，如果非数字过滤跳过，就continue
             if (c[j] < '0' || c[j] > '9') break;
-            //3、判断字符的数字范围是否超过int，int的最后1位，正7付8
+            //4、判断字符的数字范围是否超过int，int的最后1位，正7付8
             if (res > Integer.MAX_VALUE / 10 || res == Integer.MAX_VALUE / 10 && c[j] > '7') {
                 return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             }
-            //4、res原res左移1位，加上当前值
+            //5、res原res左移1位，加上当前值
             res = res * 10 + c[j] - '0';
         }
         return sign * res;
