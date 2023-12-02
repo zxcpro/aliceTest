@@ -27,6 +27,8 @@ public class IsPalindrome {
     1、负数都不是回文数
     2、把数字反转过来
     3、跟原数字相等就是，不相等就不是回文数
+    空间复杂度，没引入新的空间，O（1）
+    时间复杂度，O（logn），每次都除以10了
      */
     public boolean isPalindrome(int x) {
         if (x < 0) {
