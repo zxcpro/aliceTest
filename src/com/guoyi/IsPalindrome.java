@@ -3,6 +3,7 @@ package com.guoyi;
 public class IsPalindrome {
 
     /*
+    9、回文数
     给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。
     回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
     例如，121 是回文，而 123 不是。
@@ -20,33 +21,33 @@ public class IsPalindrome {
     输出：false
     解释：从右向左读, 为 01 。因此它不是一个回文数。
      */
+
+    /*
+    思路：
+    1、负数都不是回文数
+    2、把数字反转过来
+    3、跟原数字相等就是，不相等就不是回文数
+     */
     public boolean isPalindrome(int x) {
-        if(x<0){
+        if (x < 0) {
             return false;
         }
-        int div = 1;
-        while(x/div>=10){
-            div=div*10;
+        int num = x;
+        int cur = 0;
+        while (num != 0) {
+            cur = cur * 10 + num % 10;
+            num = num / 10;
         }
-        while(x>0){
-            int left = x/div;
-            int right = x%10;
-            if(left!=right){
-                return false;
-            }
-            //%是余数，/是除得
-            //去掉第一位，取余，比如939%100=39
-            x = (x%div) ;
-            //去掉最后以为，比如39/10 = 3；
-            x = x/10;
-            div = div/100;
+        if (cur == x) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static void main(String[] args) {
         int x = 98589;
         IsPalindrome palindrome = new IsPalindrome();
         boolean isPalindrome = palindrome.isPalindrome(x);
+        System.out.println(isPalindrome);
     }
 }
