@@ -31,7 +31,7 @@ public class LetterCombinations {
     }
 
     public void backtrack(List<String> res, String digits, int index, StringBuilder builder) {
-        //index是当前数字index，记录解的条件，记录解
+        //1、记录解决，index是当前数字index，根据解的条件
         if (index == digits.length()) {
             res.add(builder.toString());
         }
@@ -39,11 +39,12 @@ public class LetterCombinations {
         String letters = phoneMap.get(numChar);
         //这里是回溯
         for (int i = 0; i < letters.length(); i++) {
-            //尝试这一步和下一步
+            //2、剪枝，如果有的话，判断是否合法，这里剪
+            //3、尝试解的步骤，尝试这一步
             builder.append(letters.charAt(i));
-            //index+1，去尝试下一个数字
+            //调用回溯，尝试遍历下一步
             backtrack(res, digits, index + 1, builder);
-            //回退
+            //4、回退
             //当记录解回到上一步，或者i走完回到上一步，都会走到这里的回退逻辑
             builder.deleteCharAt(index);
         }
