@@ -16,7 +16,7 @@ public class SubsetsWithDup {
     示例 2：
     输入：nums = [0]
     输出：[[],[0]]
-
+    思考：深度遍历，回溯，但要剪枝，类似 CombinationSum2
      */
 
     public List<List<Integer>> subsetsWithDup(int[] nums) {
