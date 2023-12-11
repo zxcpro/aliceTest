@@ -74,4 +74,6 @@ public class NQueen {
         }
         return board;
     }
+
+
 }
