@@ -14,7 +14,7 @@ public class WordExist {
      */
     public boolean wordExist(char[][] board, String word) {
         char[] charWord = word.toCharArray();
-        //board.length 是行数，
+        //board.length 是行数, board[0].length是列数
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (backtrack(board, charWord, i, j, 0)) return true;
@@ -24,23 +24,22 @@ public class WordExist {
     }
 
     private boolean backtrack(char[][] board, char[] word, int i, int j, int k) {
-        //1、记录解
+        //1、剪枝 最后一个能通过该剪枝才能走到下一步通过最后记录解
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word[k]) {
+            return false;
+        }
+        //2、记录解
         if (k == word.length - 1) {
             return true;
         }
-        //2、剪枝
-        if (i >= board.length || i < 0 || j >= board[0].length || j < 0 || board[i][j] != word[k]) {
-            return false;
-        }
+
         //3、尝试解，把走过的路重置一下，避免重复使用
         board[i][j] = '\0';
         //回溯可能的解
-        boolean res = backtrack(board, word, i + 1, j, k + 1) || backtrack(board, word, i - 1, j, k + 1) ||
-                backtrack(board, word, i, j + 1, k + 1) || backtrack(board, word, i, j - 1, k + 1);
+        boolean res = backtrack(board, word, i + 1, j, k + 1) || backtrack(board, word, i - 1, j, k + 1) || backtrack(board, word, i, j + 1, k + 1) || backtrack(board, word, i, j - 1, k + 1);
         //4、再重置回来
         board[i][j] = word[k];
         return res;
-
     }
 
 }
