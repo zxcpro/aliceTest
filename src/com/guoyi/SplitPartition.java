@@ -38,7 +38,7 @@ public class SplitPartition {
                 continue;
             }
             ans.add(new String(chars, index, i - index + 1));
-            backtrack(res, chars, index + 1, ans);
+            backtrack(res, chars, i + 1, ans);
             ans.remove(ans.size() - 1);
         }
     }
