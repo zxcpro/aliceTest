@@ -17,35 +17,35 @@ public class SplitPartition {
     输出：[["a"]]
      */
 
-    public List<List<String>> splitPartition(String s){
+    public List<List<String>> splitPartition(String s) {
         List<List<String>> res = new ArrayList<>();
-        if(s == null){
+        if (s == null) {
             return res;
         }
         char[] chars = s.toCharArray();
-        backtrack(res,chars,0,new ArrayList<String>());
+        backtrack(res, chars, 0, new ArrayList<String>());
         return res;
     }
 
-    private void backtrack(List<List<String>> res,char[] chars,int index,List<String> ans){
-        if(index == chars.length){
+    private void backtrack(List<List<String>> res, char[] chars, int index, List<String> ans) {
+        if (index == chars.length) {
             res.add(new ArrayList<>(ans));
             return;
         }
 
-        for(int i = index;i<chars.length;i++){
-            if(!isPalindromic(i,index,chars)){
+        for (int i = index; i < chars.length; i++) {
+            if (!isPalindromic(i, index, chars)) {
                 continue;
             }
             ans.add(new String(chars, index, i - index + 1));
-            backtrack(res,chars,index+1,ans);
-            ans.remove(ans.size() -1);
+            backtrack(res, chars, index + 1, ans);
+            ans.remove(ans.size() - 1);
         }
     }
 
-    private boolean isPalindromic(int i,int index,char[] chars){
-        while(index<i){
-            if(chars[index] != chars[i]){
+    private boolean isPalindromic(int i, int index, char[] chars) {
+        while (index < i) {
+            if (chars[index] != chars[i]) {
                 return false;
             }
             i--;
