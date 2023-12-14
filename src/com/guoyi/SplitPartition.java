@@ -46,7 +46,7 @@ public class SplitPartition {
     private boolean isPalindromic(int i,int index,char[] chars){
         while(index<i){
             if(chars[index] != chars[i]){
-            return false;
+                return false;
             }
             i--;
             index++;
