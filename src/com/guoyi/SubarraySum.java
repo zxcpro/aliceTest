@@ -30,11 +30,12 @@ public class SubarraySum {
         preSumFreq.put(0, 1);
         for (int i = 0; i < nums.length; i++) {
             preSum = preSum + nums[i];
+            //判断前缀和是否是当前前缀和和目标值差值，x+k=y，那么x到y的子列就是前缀和
             if (preSumFreq.containsKey(preSum - k)) {
                 //前缀和-目标值=某个前缀和，说明这个差量的都是符合条件的目标子序列
                 count = count + preSumFreq.get(preSum - k);
-
             }
+            //放入前缀和到map中，每次把存入的key的次数value+1
             preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
         }
         return count;
@@ -42,9 +43,9 @@ public class SubarraySum {
 
 
     public static void main(String[] args) {
-        int[] nums = {1, 3, 1, 0};
+        int[] nums = {1, 1, 3, 3};
         SubarraySum subarraySum = new SubarraySum();
-        int n = subarraySum.subarraySum(nums, 4);
+        int n = subarraySum.subarraySum(nums, 6);
         System.out.println(n);
 
     }
