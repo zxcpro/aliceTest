@@ -6,49 +6,130 @@ public class FindAnagrams {
 
     /*
     438 找到字符串中所有字母异位词
+    给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
+    异位词 指由相同字母重排列形成的字符串（包括相同的字符串）。
+
+    示例 1:
+    输入: s = "cbaebabacd", p = "abc"
+    输出: [0,6]
+    解释:
+    起始索引等于 0 的子串是 "cba", 它是 "abc" 的异位词。
+    起始索引等于 6 的子串是 "bac", 它是 "abc" 的异位词。
+
+    示例 2:
+    输入: s = "abab", p = "ab"
+    输出: [0,1,2]
+    解释:
+    起始索引等于 0 的子串是 "ab", 它是 "ab" 的异位词。
+    起始索引等于 1 的子串是 "ba", 它是 "ab" 的异位词。
+    起始索引等于 2 的子串是 "ab", 它是 "ab" 的异位词。
      */
 
-    public List<Integer> findAnagrams1(String s, String p) {
-        return null;
+    public List<Integer> findAnagrams(String s, String p) {
+        //异位词即其中包含的字母与每个字母出现的次数都相同，滑动窗口记录遍历字符中的各字符出现次数
+        List<Integer> ans = new ArrayList();
+        if(p.length() > s.length()) {
+            return ans;
+        }
+
+        //1、记录目标子串p中的字符出现的次数
+        Map<Character, Integer> targetCountMap = new HashMap();
+        for(char c : p.toCharArray()) {
+            Integer count = targetCountMap.get(c);
+            if(count == null){
+                count = 0;
+            }
+            count++;
+            targetCountMap.put(c, count);
+        }
+        char[] sCharArray = s.toCharArray();
+        Map<Character, Integer> currentCharCount = new HashMap();
+        //使用第一个长度匹配的子串初始化currentCharCount
+        for(int start = 0, end = 0; end < s.length(); end++) {
+            char c = sCharArray[end];
+            Character r = null;
+            Integer rCount = null;
+            Integer count = currentCharCount.get(c);
+            if(count == null) {
+                count = 0;
+            }
+            count++;
+            currentCharCount.put(c, count);
+            //达到了符合条件的长度
+            if(end >= p.length()) {
+                //把start位置上的字符移除
+                r = sCharArray[start];
+                rCount = currentCharCount.get(r);
+                //不可能为0
+                rCount--;
+                if(rCount == 0) {
+                    currentCharCount.remove(r);
+                } else {
+                    currentCharCount.put(r, rCount);
+                }
+                start++;
+            }
+
+            //如果当前变动的字符的次数与目标一致，进一步检查是否满足
+            if(!matchKey(currentCharCount, targetCountMap, c)) {
+                continue;
+            }
+
+            if(rCount != null && !matchKey(currentCharCount, targetCountMap, r)) {
+                continue;
+            }
+
+            if(isMatch(currentCharCount, targetCountMap)) {
+                ans.add(start);
+            }
+        }
+        return ans;
     }
 
-    public List<Integer> findAnagrams(String s, String p) {
-        Map<Character, Integer> window = new HashMap<>();
-        Map<Character, Integer> need = new HashMap<>();
-        for (char c : p.toCharArray()) {
-            need.put(c, need.getOrDefault(c, 0) + 1);
+    public boolean isMatch(Map<Character, Integer> fir, Map<Character, Integer> sec) {
+        //需要维护当元素数为0时，删除该key
+        if(fir.size() != sec.size()) {
+            return false;
         }
-        int left = 0;
-        int right = 0;
-        int valid = 0;
-        List<Integer> result = new ArrayList<>();
-        while (right <= s.length()) {
-            char c = s.charAt(right);
-            right++;
-            if (need.containsKey(c)) {
-                window.put(c, window.getOrDefault(c, 0) + 1);
-                if (window.get(c).equals(need.get(c))) {
-                    valid++;
-                }
-            }
-            // 判断左侧窗⼝是否要收缩
-            while (right - left >= p.length()) {
-                // 终止条件
-                if (valid == need.size()) {
-                    result.add(left);
-                }
-                char d = s.charAt(left);
-                left++;
-                //移动left
-                if (need.containsKey(d)) {
-                    if (window.get(d).equals(need.get(d))) {
-                        valid--;
-                    }
-                    window.put(d, window.get(d) - 1);
-                }
+        for(char c : fir.keySet()) {
+            if(!fir.get(c).equals(sec.get(c))) {
+                return false;
             }
         }
-        return result;
+        return true;
+    }
+
+    public boolean matchKey(Map<Character,Integer> fir, Map<Character,Integer> sec, char target) {
+        Integer firstRes = fir.get(target);
+        Integer secRes = sec.get(target);
+        if(firstRes == null && secRes == null) {
+            return true;
+        } else if(firstRes != null && secRes != null) {
+            return firstRes.equals(secRes);
+        } else {
+            return false;
+        }
+    }
+
+
+    //维护这个位置的字母出现的次数
+    public List<Integer> findAnagrams2(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        int n = s.length(), m = p.length();
+        int[] c1 = new int[26], c2 = new int[26];
+        for (int i = 0; i < m; i++) c2[p.charAt(i) - 'a']++;
+        for (int l = 0, r = 0; r < n; r++) {
+            c1[s.charAt(r) - 'a']++;
+            if (r - l + 1 > m) c1[s.charAt(l++) - 'a']--;
+            if (check(c1, c2)) ans.add(l);
+        }
+        return ans;
+    }
+    boolean check(int[] c1, int[] c2) {
+        for (int i = 0; i < 26; i++) {
+            if (c1[i] != c2[i]) return false;
+        }
+        return true;
     }
 
 }
