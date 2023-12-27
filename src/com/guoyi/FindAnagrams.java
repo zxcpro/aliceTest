@@ -69,16 +69,7 @@ public class FindAnagrams {
                 }
                 start++;
             }
-
-            //如果当前变动的字符的次数与目标一致，进一步检查是否满足
-            if(!matchKey(currentCharCount, targetCountMap, c)) {
-                continue;
-            }
-
-            if(rCount != null && !matchKey(currentCharCount, targetCountMap, r)) {
-                continue;
-            }
-
+            //判断currentCharCount和targetCountMap
             if(isMatch(currentCharCount, targetCountMap)) {
                 ans.add(start);
             }
@@ -98,19 +89,6 @@ public class FindAnagrams {
         }
         return true;
     }
-
-    public boolean matchKey(Map<Character,Integer> fir, Map<Character,Integer> sec, char target) {
-        Integer firstRes = fir.get(target);
-        Integer secRes = sec.get(target);
-        if(firstRes == null && secRes == null) {
-            return true;
-        } else if(firstRes != null && secRes != null) {
-            return firstRes.equals(secRes);
-        } else {
-            return false;
-        }
-    }
-
 
     //维护这个位置的字母出现的次数
     public List<Integer> findAnagrams2(String s, String p) {
