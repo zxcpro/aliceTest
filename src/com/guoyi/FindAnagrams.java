@@ -110,4 +110,8 @@ public class FindAnagrams {
         return true;
     }
 
+
+    public static void main(String[] args) {
+
+    }
 }
