@@ -27,6 +27,7 @@ public class FindAnagrams {
 
     public List<Integer> findAnagrams(String s, String p) {
         //异位词即其中包含的字母与每个字母出现的次数都相同，滑动窗口记录遍历字符中的各字符出现次数
+        //s是原字符串，p是子串
         List<Integer> ans = new ArrayList();
         if(p.length() > s.length()) {
             return ans;
@@ -45,21 +46,19 @@ public class FindAnagrams {
         char[] sCharArray = s.toCharArray();
         Map<Character, Integer> currentCharCount = new HashMap();
         //使用第一个长度匹配的子串初始化currentCharCount
-        for(int start = 0, end = 0; end < s.length(); end++) {
-            char c = sCharArray[end];
-            Character r = null;
-            Integer rCount = null;
-            Integer count = currentCharCount.get(c);
-            if(count == null) {
-                count = 0;
+        for(int left = 0, right = 0; right < s.length(); right++) {
+            char c = sCharArray[right];
+            Integer cCount = currentCharCount.get(c);
+            if(cCount == null) {
+                cCount = 0;
             }
-            count++;
-            currentCharCount.put(c, count);
+            cCount++;
+            currentCharCount.put(c, cCount);
             //达到了符合条件的长度
-            if(end >= p.length()) {
+            if(right >= p.length()) {
                 //把start位置上的字符移除
-                r = sCharArray[start];
-                rCount = currentCharCount.get(r);
+                Character r = sCharArray[left];
+                Integer rCount = currentCharCount.get(r);
                 //不可能为0
                 rCount--;
                 if(rCount == 0) {
@@ -67,11 +66,11 @@ public class FindAnagrams {
                 } else {
                     currentCharCount.put(r, rCount);
                 }
-                start++;
+                left++;
             }
             //判断currentCharCount和targetCountMap
             if(isMatch(currentCharCount, targetCountMap)) {
-                ans.add(start);
+                ans.add(left);
             }
         }
         return ans;
@@ -93,13 +92,18 @@ public class FindAnagrams {
     //维护这个位置的字母出现的次数
     public List<Integer> findAnagrams2(String s, String p) {
         List<Integer> ans = new ArrayList<>();
-        int n = s.length(), m = p.length();
-        int[] c1 = new int[26], c2 = new int[26];
-        for (int i = 0; i < m; i++) c2[p.charAt(i) - 'a']++;
-        for (int l = 0, r = 0; r < n; r++) {
-            c1[s.charAt(r) - 'a']++;
-            if (r - l + 1 > m) c1[s.charAt(l++) - 'a']--;
-            if (check(c1, c2)) ans.add(l);
+        int[] sc = new int[26], pc = new int[26];
+        for (int i = 0; i < p.length(); i++){
+            pc[p.charAt(i) - 'a']++;
+        }
+        for (int l = 0, r = 0; r < s.length(); r++) {
+            sc[s.charAt(r) - 'a']++;
+            if (r - l + 1 > p.length()) {
+                sc[s.charAt(l++) - 'a']--;
+            }
+            if (check(sc, pc)){
+                ans.add(l);
+            }
         }
         return ans;
     }
@@ -112,6 +116,8 @@ public class FindAnagrams {
 
 
     public static void main(String[] args) {
-
+        FindAnagrams findAnagrams = new FindAnagrams();
+        List<Integer> list = findAnagrams.findAnagrams2("fghjkabcbaiuyt", "abc");
+        System.out.println(list.toString());
     }
 }
