@@ -1,8 +1,5 @@
 package com.guoyi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class MaxProduct {
 
     /*
@@ -18,9 +15,8 @@ public class MaxProduct {
     输入: nums = [-2,0,-1]
     输出: 0
     解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
-     */
 
-    /*
+    思考
     1、先找个地方记录解，max
     2、找解和前解的关系公式
     由于有正负，最大数，最小数都要记，万一遇到负值，最小的就最大了
