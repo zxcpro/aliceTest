@@ -34,23 +34,29 @@ public class AddTwoNumbers {
     空间复杂度：O(1)。注意返回值不计入空间复杂度。
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //1、记录头节点
         ListNode head = null;
-        ListNode tail = null;
-        int carry = 0;//记录进位
+        //2、记录结果的链表
+        ListNode res = null;
+        //3、记录进位
+        int carry = 0;
+        //4、只要有一个链表不为null，就进入循环，计算记录结果
         while (l1 != null || l2 != null) {
+            //5、取出两个链表的val
             int n1 = l1 != null ? l1.val : 0;
             int n2 = l2 != null ? l2.val : 0;
+            //6、记录和，l1+l2+carry
             int sum = n1 + n2 + carry;
+            //7、如果是第一个数，初始化head和res，sum余10，余数的就是非进位的数字，如果不是第一个数，赋值到next，然后更新res
             if (head == null) {
-                //如果是第一个数，初始化head和tail
-                // sum余10，余数的就是非进位的数字
-                head = tail = new ListNode(sum % 10);
+                head = res = new ListNode(sum % 10);
             } else {
-                tail.next = new ListNode(sum % 10);
-                tail = tail.next;
+                res.next = new ListNode(sum % 10);
+                res = res.next;
             }
-            //sum除10，0或者1，记录进位
+            //8、记录进位carry
             carry = sum / 10;
+            //9、更新l1、l2
             if (l1 != null) {
                 l1 = l1.next;
             }
@@ -58,45 +64,31 @@ public class AddTwoNumbers {
                 l2 = l2.next;
             }
         }
-        //如果最后有进位，那么再加一个节点记录进位1
+        //10、如果最后有进位，那么再加一个节点记录进位1
         if (carry > 0) {
-            tail.next = new ListNode(carry);
+            res.next = new ListNode(carry);
         }
         return head;
     }
 
 
     public ListNode addTwoNumbersDiGui(ListNode l1, ListNode l2) {
-        //两个链表同时遍历，如果有进位则记进位，和+1
-        //注意考虑一个list截止另一个未截止的场景
-        //注意考虑最后一个节点有进位时，最后还需要一个节点为1
-        boolean increase = false;
+        //记录进位increase，递归
+        int increase = 0;
         return plusNextNode(l1, l2, increase);
     }
 
-    public ListNode plusNextNode(ListNode l1, ListNode l2, boolean increase) {
-        //注意空节点
-        //selectNextNode(l1, l2)
-        //如果二者都不为空，则二者和+increase生成新节点
-        //如果一个为空，一个不为空，则使用非空节点值生成新节点+increase
-        //如果都为空，increase为true，还需要再生成一个节点
-        if(l1 == null && l2 == null && !increase) {
+    public ListNode plusNextNode(ListNode l1, ListNode l2, int increase) {
+        //均为空，则结束，没有下一个plusNextNode调用，递归结束
+        if(l1 == null && l2 == null && increase == 0) {
             return null;
         }
 
         int val1 = l1 != null ? l1.val : 0;
         int val2 = l2 != null ? l2.val : 0;
-        int sum = val1 + val2;
-        if(increase) {
-            sum++;
-        }
-
-        if(sum >= 10) {
-            increase = true;
-            sum = sum%10;
-        } else {
-            increase = false;
-        }
+        int sum = val1 + val2 + increase;
+        sum = sum % 10;
+        increase = sum / 10;
         ListNode current = new ListNode(sum);
         current.next = plusNextNode(
                 l1 != null ? l1.next : null,
