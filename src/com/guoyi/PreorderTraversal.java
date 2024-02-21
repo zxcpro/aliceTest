@@ -1,8 +1,8 @@
 package com.guoyi;
 
+import com.guoyi.CommonTool.TreeNode;
 import java.util.ArrayList;
 import java.util.List;
-import com.guoyi.CommonTool.TreeNode;
 
 public class PreorderTraversal {
     /*
