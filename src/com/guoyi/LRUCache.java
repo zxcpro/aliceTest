@@ -83,21 +83,19 @@ public class LRUCache {
     }
 
     public void put(int key, int value) {
-        // System.out.println("【putting】 key:" + key);
-
         //放入已存在值
         if(map.get(key) != null) {
-            DLinkedNode origin = map.get(key);
-            origin.val = value;
+            DLinkedNode node = map.get(key);
+            node.val = value;
             //更新这个key
-            refreshList(origin);
+            refreshList(node);
             return;
         }
 
         //放入不存在值
         //检查是否到达容量上限
         if(this.count == capacity) {
-            //如果到达，删除最老的一个元素后，再put
+            //如果到达，node和map都删除队尾的一个元素后，再put
             DLinkedNode lastDLinkedNode = remove(tailNode);
             map.remove(lastDLinkedNode.key);
             this.count--;
@@ -116,7 +114,6 @@ public class LRUCache {
     }
 
     private void addFirst(DLinkedNode dLinkedNode) {
-        // System.out.println("add node:" + node.val + " current tail:"+tail);
         DLinkedNode firstDLinkedNode = dummyHeadNode.next;
         dummyHeadNode.next = dLinkedNode;
         dLinkedNode.next = firstDLinkedNode;
@@ -133,7 +130,6 @@ public class LRUCache {
 
     private DLinkedNode remove(DLinkedNode dLinkedNode) {
 
-        // System.out.println("Removing " + node);
         DLinkedNode prevDLinkedNode = dLinkedNode.prev;
         DLinkedNode nextDLinkedNode = dLinkedNode.next;
         if(tailNode == dLinkedNode) {
