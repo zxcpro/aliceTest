@@ -29,14 +29,15 @@ public class MergeTwoLists {
                 cur.next = list2;
                 list2 = list2.next;
             }
+            cur = cur.next;
         }
 
         if(list1 != null){
             cur.next = list1;
-        }
-        if(list2 != null){
+        }else {
             cur.next = list2;
         }
+
         return tempHead.next;
     }
 
