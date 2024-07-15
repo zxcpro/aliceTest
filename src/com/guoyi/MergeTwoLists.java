@@ -15,6 +15,7 @@ public class MergeTwoLists {
     示例 3：
     输入：l1 = [], l2 = [0]
     输出：[0]
+    https://leetcode.cn/problems/merge-two-sorted-lists/solutions/2361535/21-he-bing-liang-ge-you-xu-lian-biao-shu-aisw/
      */
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
@@ -37,7 +38,6 @@ public class MergeTwoLists {
         }else {
             cur.next = list2;
         }
-
         return tempHead.next;
     }
 
