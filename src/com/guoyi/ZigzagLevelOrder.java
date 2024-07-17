@@ -22,9 +22,9 @@ public class ZigzagLevelOrder {
     输出：[]
 
     思考：
-    1、初始化队列queue，放二叉树root
-    2、初始化一个List<List<Integer>> res放结果
-    3、循环，只要queue不为空，就取出queue poll队头，放进本层的List<Integer> temp
+    1、初始化队列queue，放二叉树root方便后续向下遍历
+    2、初始化 List<List<Integer>> res放结果
+    3、循环，List<Integer> temp初始化临时变量，用来存储本层的变量，只要queue不为空，就取出queue poll取出队头，
     4、如果是奇数层，就正temp放入res，如果是偶数层，就reverse temp再放
     5、拼入res
     6、循环结束，返回res
@@ -32,7 +32,7 @@ public class ZigzagLevelOrder {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
-        if (root != null) queue.add(root);
+        if (root != null) queue.offer(root);//offer就是list的addLast
         while (!queue.isEmpty()) {
             List<Integer> temp = new ArrayList<>();
             for (int i = queue.size(); i > 0; i--) {
