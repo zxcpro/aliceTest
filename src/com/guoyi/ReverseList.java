@@ -34,5 +34,21 @@ public class ReverseList {
         return pre;
     }
 
+    public static void main(String[] args) {
+
+    }
+
+    public ListNode reverseList1(ListNode head) {
+        ListNode cur = head;
+        ListNode pre = null;
+        ListNode temp = head;
+        while(cur !=null){
+            temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        return pre;
+    }
 
 }
