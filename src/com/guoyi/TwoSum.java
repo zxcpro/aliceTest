@@ -18,18 +18,19 @@ public class TwoSum {
      */
 
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
-        for (int i = 0; i < nums.length; ++i) {
-            if (hashMap.containsKey(target - nums[i])) {
-                return new int[]{hashMap.get(target - nums[i]), i};
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                //如果命中直接返回
+                return new int[]{map.get(target - nums[i]), i};
             }
             //先判断完再存，就保证了不会把当前值用两次
-            hashMap.put(nums[i], i);
+            map.put(nums[i], i);
         }
         return new int[0];
     }
 
-    //这是错误的，会重复取用
+    //这是错误的，如果有相同数值，会重复取用
     public int[] twoSum1(int[] nums, int target) {
         Map<Integer,Integer> map = new HashMap<>();
         //这样会重复使用，上面的方法，记录着取用着，就不会重复
@@ -51,4 +52,5 @@ public class TwoSum {
         int[] ints = twoSum.twoSum(new int[]{3,2,4}, 6);
         System.out.println(ints[0]+","+ints[1]);
     }
+
 }
