@@ -1,5 +1,6 @@
 package com.guoyi;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import com.guoyi.CommonTool.TreeNode;
@@ -30,18 +31,21 @@ public class ZigzagLevelOrder {
     6、循环结束，返回res
      */
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        //必须用queue，因为queue有poll，从队列拿出最上层的元素
         Queue<TreeNode> queue = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
-        if (root != null) queue.offer(root);//offer就是list的addLast
+        if (root != null) queue.offer(root);//offer就是list的add
         while (!queue.isEmpty()) {
             List<Integer> temp = new ArrayList<>();
+            //此时i=queue.size是进来while时候的size，for循环新加的不算了
             for (int i = queue.size(); i > 0; i--) {
                 TreeNode node = queue.poll();
                 temp.add(node.val);
-                if(node.left != null) queue.add(node.left);
-                if(node.right != null) queue.add(node.right);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
             }
-            if(res.size() %2 == 1) Collections.reverse(temp);
+            //res.size是res当前存过的行数，当是奇数的时候，现在的temp就是偶数层，需要翻转
+            if (res.size() % 2 == 1) Collections.reverse(temp);
             res.add(temp);
         }
 

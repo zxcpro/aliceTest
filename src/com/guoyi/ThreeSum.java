@@ -76,5 +76,42 @@ public class ThreeSum {
         List<List<Integer>> lists = threeSum.threeSum(nums);
     }
 
+
+
+    public List<List<Integer>> threeSum1(int[] nums) {
+        List<List<Integer>> res  = new ArrayList<>();
+        if(nums == null || nums.length <3){
+            return res;
+        }
+        Arrays.sort(nums);
+        for (int index = 0; index < nums.length-2; index++) {
+            if(nums[index] > 0){
+                return res;
+            }
+            int l = index + 1;
+            int r = nums.length -1;
+            while (l<r){
+                int sum = nums[index] + nums[l] + nums[r];
+                if(sum < 0){
+                    l++;
+                }else if(sum > 0){
+                    r--;
+                }
+                else{
+                    List<Integer> tempRes = Arrays.asList(nums[index],nums[l],nums[r]);
+                    res.add(tempRes);
+                    while(nums[l++] == nums[l]){
+                        l++;
+                    }
+                    while(nums[r--] == nums[r]){
+                        r--;
+                    }
+                    r--;
+                    l++;
+                }
+            }
+        }
+        return res;
+    }
 }
 
