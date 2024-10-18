@@ -15,37 +15,30 @@ public class MergeTwoLists {
     示例 3：
     输入：l1 = [], l2 = [0]
     输出：[0]
+    https://leetcode.cn/problems/merge-two-sorted-lists/solutions/2361535/21-he-bing-liang-ge-you-xu-lian-biao-shu-aisw/
      */
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode dummyHead = new ListNode();
-        ListNode current = dummyHead;
-        ListNode temp1 = list1;
-        ListNode temp2 = list2;
+        ListNode tempHead = new ListNode(0);
+        ListNode cur = tempHead;
 
-        while (true) {
-            ListNode target;
-            if (temp1 == null && temp2 == null) {
-                break;
+        while (list1 != null && list2 != null) {
+            if(list1.val < list2.val){
+                cur.next = list1;
+                list1 = list1.next;
+            }else{
+                cur.next = list2;
+                list2 = list2.next;
             }
-            if (temp1 != null && temp2 == null) {
-                target = temp1;
-                temp1 = temp1.next;
-            } else if (temp2 != null && temp1 == null) {
-                target = temp2;
-                temp2 = temp2.next;
-            } else if (temp1.val < temp2.val) {
-                target = temp1;
-                temp1 = temp1.next;
-            } else {
-                target = temp2;
-                temp2 = temp2.next;
-            }
-            current.next = target;
-            current = target;
+            cur = cur.next;
         }
 
-        return dummyHead.next;
+        if(list1 != null){
+            cur.next = list1;
+        }else {
+            cur.next = list2;
+        }
+        return tempHead.next;
     }
 
     public static void main(String[] args) {
