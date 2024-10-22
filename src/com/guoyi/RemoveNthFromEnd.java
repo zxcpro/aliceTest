@@ -12,20 +12,20 @@ public class RemoveNthFromEnd {
     空间复杂度：O(1)。
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        //避免head本身要被跳过，所以要先记录一下pre
         ListNode pre = new ListNode(0, head);
-        ListNode start = pre;
-        ListNode end = pre;
+        ListNode left = pre;
+        ListNode right = pre;
 
-        while(n!=0){
-            end = end.next;
-            n--;
+        for (int i = 0; i < n; i++) {
+            right = right.next;
         }
-        while(end.next!=null){
-            start = start.next;
-            end = end.next;
+        while(right.next!=null){
+            left = left.next;
+            right = right.next;
         }
-
-        start.next = start.next.next;
+        //只跳过左指针的下一个数字，不用关心right，不要指向right，那就跳错了
+        left.next = left.next.next;
         return pre.next;
     }
 
@@ -35,6 +35,22 @@ public class RemoveNthFromEnd {
         RemoveNthFromEnd removeNthFromEnd = new RemoveNthFromEnd();
         ListNode listNode1 = removeNthFromEnd.removeNthFromEnd(listNode, 2);
         System.out.println(listNode1.toString());
+    }
+
+
+    public ListNode removeNthFromEnd1(ListNode head, int n) {
+        ListNode pre = new ListNode(0, head);
+        ListNode left = pre;
+        ListNode right = pre;
+        for (int i = 0; i < n; i++) {
+            right = right.next;
+        }
+        while(right.next!=null){
+            left = left.next;
+            right = right.next;
+        }
+        left.next = left.next.next;
+        return pre.next;
     }
 
 

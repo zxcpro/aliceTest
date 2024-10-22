@@ -23,13 +23,13 @@ public class Trap {
         int preHigh = 0;
         int endHigh = 0;
         while (left < right) {
-            preHigh = Math.max(preHigh,height[left]);
-            endHigh = Math.max(endHigh,height[right]);
-            if(height[left]<height[right]){
-                ans = ans + (preHigh-height[left]);
+            preHigh = Math.max(preHigh, height[left]);
+            endHigh = Math.max(endHigh, height[right]);
+            if (height[left] < height[right]) {
+                ans = ans + (preHigh - height[left]);
                 left++;
-            }else{
-                ans = ans + (endHigh-height[right]);
+            } else {
+                ans = ans + (endHigh - height[right]);
                 right--;
             }
         }
