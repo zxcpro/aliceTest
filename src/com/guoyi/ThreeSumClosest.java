@@ -26,23 +26,24 @@ public class ThreeSumClosest {
     3、这里有个数学运算，如果==目标，就结束，如果不等于，那么比较差值绝对值，是否当前sum与target更接近
     4、双指针，小了增加，大了减少
      */
+
     public int threeSumClosest(int[] nums, int target) {
+        int res = nums[0] + nums[1] + nums[2];
+        int sum;
         Arrays.sort(nums);
-        int ans = nums[0] + nums[1] + nums[2];
         for (int i = 0; i < nums.length; i++) {
-            int start = i + 1;
-            int end = nums.length - 1;
-            while (ans != target && start < end) {
-                int sum = nums[i] + nums[start] + nums[end];
-                if (Math.abs(target - sum) < Math.abs(target - ans))
-                    ans = sum;
-                if (sum < target) {
-                    start++;
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (res != target && left < right) {
+                sum = nums[i] + nums[left] + nums[right];
+                res = Math.abs(sum - target) < Math.abs(res - target) ? sum : res;
+                if (sum > target) {
+                    right--;
                 } else {
-                    end--;
+                    left++;
                 }
             }
         }
-        return ans;
+        return res;
     }
 }

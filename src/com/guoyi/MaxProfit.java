@@ -17,16 +17,17 @@ public class MaxProfit {
      */
 
     public int maxProfit(int[] prices){
-        int profit = 0;
+        int benefit = 0;
         int cost = Integer.MAX_VALUE;
         if(prices == null || prices.length <2){
-            return profit;
+            return benefit;
         }
 
         for(int price : prices){
             cost = Math.min(cost,price);
-            profit = Math.max(profit,price-cost);
+            benefit = Math.max(benefit,price-cost);
         }
-        return profit;
+        return benefit;
     }
+
 }

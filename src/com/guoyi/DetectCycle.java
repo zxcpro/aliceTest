@@ -44,4 +44,5 @@ public class DetectCycle {
         }
         return fast;
     }
+
 }
