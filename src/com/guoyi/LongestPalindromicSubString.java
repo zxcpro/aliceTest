@@ -21,6 +21,7 @@ public class LongestPalindromicSubString {
         if (s == null || s.length() < 1) return "";
         //回文串左边start，右边end
         int start = 0, end = 0;
+        //每个位置为中心时的解
         for (int i = 0; i < s.length(); i++) {
             //奇数
             int len1 = expandAroundCenter(s, i, i);
@@ -55,6 +56,47 @@ public class LongestPalindromicSubString {
     public static void main(String[] args) {
         String s = longestPalindrome("ccccbk");
         System.out.println(s);
+    }
+
+
+    public String longestPalindrome1(String s) {
+        if(s == null || s.length() <2){
+            return s;
+        }
+        String res = "";
+        char[] sChars = s.toCharArray();
+        for(int i = 0;i<s.length();i++){
+            String len1 = getLongest(sChars,i,i);
+            String len2 = getLongest(sChars,i,i+1);
+            if (len1.length()>len2.length()){
+                int length = Math.max(res.length(),len1.length());
+                if (length == len1.length()){
+                    res = s.substring(i-(len1.length()-1)/2,i+(len1.length()-1)/2);;
+                }
+
+            }else{
+                int length = Math.max(res.length(),len2.length());
+                if (length == len2.length()){
+                    res = s.substring(i-(len1.length()-2)/2,i+(len1.length())/2);
+                }
+            }
+        }
+
+        return res;
+
+    }
+
+    private String getLongest(char[] sChars,int i,int j){
+        String res = "";
+        if(i == j){
+            int length = sChars.length;
+            for(int n = 0;n<length/2;n++){
+                if(sChars[i-n]==sChars[i+n]){
+                    res = sChars.toString().substring(i-n,i+n);
+                }
+            }
+        }
+        return res;
     }
 
 }
