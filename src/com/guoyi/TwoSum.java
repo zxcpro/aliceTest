@@ -30,7 +30,7 @@ public class TwoSum {
         return new int[0];
     }
 
-    //这是错误的，如果有相同数值，会重复取用
+    //这是错误的，如果有相同数值，会重复取用，比如，123，找4，22会不排除自身的重复用
     public int[] twoSum1(int[] nums, int target) {
         Map<Integer,Integer> map = new HashMap<>();
         //这样会重复使用，上面的方法，记录着取用着，就不会重复

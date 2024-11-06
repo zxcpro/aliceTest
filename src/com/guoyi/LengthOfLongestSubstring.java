@@ -25,7 +25,8 @@ public class LengthOfLongestSubstring {
         //1、初始化char，int的map，记录char出现的位置
         Map<Character, Integer> map = new HashMap<>();
         //2、左右窗口从0开始初始化，for循环，右窗口持续++
-        for (int left = 0, right = 0; right < str.length(); right++) {
+        int left = 0;
+        for (int right = 0; right < str.length(); right++) {
             char cur = str.charAt(right);
             //3、左窗口遇到已出现的字符，左窗口移到最后出现该字符的后一个位置，把重复字符排除出去的那个位置
             if (map.containsKey(cur)) {
@@ -40,10 +41,28 @@ public class LengthOfLongestSubstring {
     }
 
     public static void main(String[] args) {
-        String str = new String("ababcab");
+        String str = new String("ab");
         LengthOfLongestSubstring lols = new LengthOfLongestSubstring();
-        int i = lols.lengthOfLongestSubstring(str);
+        int i = lols.lengthOfLongestSubstring1(str);
         System.out.println(i);
+    }
+
+    //自己写的
+    public int lengthOfLongestSubstring1(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        int start = 0;
+        int end = 0;
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if(map.containsKey(s.charAt(i))){
+                start = Math.max(start,map.get(s.charAt(i))+1);
+            }
+            map.put(s.charAt(i),i);
+            end = i;
+            res = Math.max(res,end-start+1);
+        }
+        return res;
+
     }
 
 }

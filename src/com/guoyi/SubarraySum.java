@@ -1,10 +1,9 @@
 package com.guoyi;
 
 import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by xuanchen.zhao on 2023/10/15.
- */
+
 public class SubarraySum {
     /*
     560 和为K的子数组
@@ -21,32 +20,48 @@ public class SubarraySum {
 
     //前缀和+哈希优化，时间复杂度、空间复杂度都是O（n）
     //https://leetcode.cn/problems/subarray-sum-equals-k/solutions/238572/he-wei-kde-zi-shu-zu-by-leetcode-solution/?envType=study-plan-v2&envId=top-100-liked
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
-        int preSum = 0;
-        //key是前缀和 value是key对应的前缀和的个数
-        HashMap<Integer, Integer> preSumFreq = new HashMap<>();
-        // 对于下标为 0 的元素，前缀和为 0，个数为 1，初始状态
-        preSumFreq.put(0, 1);
-        for (int i = 0; i < nums.length; i++) {
-            preSum = preSum + nums[i];
-            //判断前缀和是否是当前前缀和和目标值差值，x+k=y，那么x到y的子列就是前缀和
-            if (preSumFreq.containsKey(preSum - k)) {
-                //前缀和-目标值=某个前缀和，说明这个差量的都是符合条件的目标子序列
-                count = count + preSumFreq.get(preSum - k);
-            }
-            //放入前缀和到map中，每次把存入的key的次数value+1
-            preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
-        }
-        return count;
-    }
-
 
     public static void main(String[] args) {
-        int[] nums = {1, 1, 3, 3};
+        int[] nums = {1, 2, -3, 1, 2};
         SubarraySum subarraySum = new SubarraySum();
-        int n = subarraySum.subarraySum(nums, 6);
+        int n = subarraySum.subarraySum(nums, 1);
         System.out.println(n);
-
     }
+
+
+    public int subarraySum(int[] nums, int k) {
+        int res = 0;
+        Map<Integer, Integer> preSumMap = new HashMap<>();
+        //初始化，当前缀和与k差值是0时，有1个解
+        preSumMap.put(0, 1);
+        int presum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            presum = presum + nums[i];
+            //去拿前一个map预设的解的个数，因为前置初始化map在前
+            res = preSumMap.getOrDefault(presum - k, 0) + res;
+            //为后面的计算准备map
+            preSumMap.put(presum, preSumMap.getOrDefault(presum, 0) + 1);
+        }
+        return res;
+    }
+
+
+    //暴力解
+    public int subarraySum1(int[] nums, int k) {
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int sum = nums[i];
+            if (sum == k) {
+                res = res + 1;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                sum = sum + nums[j];
+                if (sum == k) {
+                    res = res + 1;
+                }
+            }
+        }
+        return res;
+    }
+
 }
