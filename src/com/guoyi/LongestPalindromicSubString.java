@@ -17,7 +17,7 @@ public class LongestPalindromicSubString {
 
     //扩展中心法 时间复杂度O(n方)，空间复杂度O(1)
     //https://leetcode.cn/problems/longest-palindromic-substring/solutions/9001/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-bao-gu/
-    public static String longestPalindrome(String s) {
+    public String longestPalindrome(String s) {
         if (s == null || s.length() < 1) return "";
         //回文串左边start，右边end
         int start = 0, end = 0;
@@ -43,7 +43,7 @@ public class LongestPalindromicSubString {
         return s.substring(start, end + 1);
     }
 
-    private static int expandAroundCenter(String s, int left, int right) {
+    private int expandAroundCenter(String s, int left, int right) {
         int l = left, r = right;
         while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
             l--;
@@ -54,7 +54,8 @@ public class LongestPalindromicSubString {
     }
 
     public static void main(String[] args) {
-        String s = longestPalindrome("ccccbk");
+        LongestPalindromicSubString longest = new LongestPalindromicSubString();
+        String s = longest.longestPalindrome1("ccccbk");
         System.out.println(s);
     }
 
@@ -64,20 +65,16 @@ public class LongestPalindromicSubString {
             return s;
         }
         String res = "";
-        char[] sChars = s.toCharArray();
         for(int i = 0;i<s.length();i++){
-            String len1 = getLongest(sChars,i,i);
-            String len2 = getLongest(sChars,i,i+1);
-            if (len1.length()>len2.length()){
-                int length = Math.max(res.length(),len1.length());
-                if (length == len1.length()){
-                    res = s.substring(i-(len1.length()-1)/2,i+(len1.length()-1)/2);;
+            int len1 = getLongest(s,i,i);
+            int len2 = getLongest(s,i,i+1);
+            if (len1 > len2){
+                if(len1>res.length()){
+                    res = s.substring(i-(len1-1)/2,i+(len1-1)/2 +1);
                 }
-
             }else{
-                int length = Math.max(res.length(),len2.length());
-                if (length == len2.length()){
-                    res = s.substring(i-(len1.length()-2)/2,i+(len1.length())/2);
+                if (len2 > res.length()){
+                    res = s.substring(i-(len2-2)/2,i+(len2)/2 + 1);
                 }
             }
         }
@@ -86,17 +83,15 @@ public class LongestPalindromicSubString {
 
     }
 
-    private String getLongest(char[] sChars,int i,int j){
-        String res = "";
-        if(i == j){
-            int length = sChars.length;
-            for(int n = 0;n<length/2;n++){
-                if(sChars[i-n]==sChars[i+n]){
-                    res = sChars.toString().substring(i-n,i+n);
-                }
-            }
+    private int getLongest(String s,int i,int j){
+
+        int left = i;
+        int right = j;
+        while(left >= 0 && right<s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
         }
-        return res;
+        return right -1 - (left + 1) +1;
     }
 
 }
