@@ -46,7 +46,6 @@ public class LRUCache {
         }
     }
 
-
     //size 实际长度
     private int size;
     //capacity 允许的容量
@@ -55,6 +54,7 @@ public class LRUCache {
     private DLinkedNode tailNode;
     //缓存map
     private Map<Integer, DLinkedNode> cache = new HashMap<>();
+
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
@@ -89,8 +89,8 @@ public class LRUCache {
         //检查是否到达容量上限，先删除出空位
         if(size == capacity) {
             //如果到达，node和map都删除队尾的一个元素后，再put
-            DLinkedNode lastNode = remove(tailNode);
-            cache.remove(lastNode.key);
+            remove(tailNode);
+            cache.remove(tailNode.key);
             size--;
         }
         //put插入
@@ -113,20 +113,25 @@ public class LRUCache {
         headNode.next = node;
     }
 
-    private DLinkedNode remove(DLinkedNode node) {
+    private void remove(DLinkedNode node) {
         DLinkedNode prevNode = node.prev;
         DLinkedNode nextNode = node.next;
-        if(tailNode == node) {
+        if(node == tailNode){
             tailNode = prevNode;
         }
-        prevNode.next = nextNode;
-        if(nextNode != null) {
+        if(node == headNode){
+            nextNode = headNode;
+        }
+        if(prevNode != null){
+            prevNode.next = nextNode;
+        }
+        if(nextNode != null){
             nextNode.prev = prevNode;
         }
 
-        node.next = null;
         node.prev = null;
-        return node;
+        node.next = null;
+        return;
     }
 
 }
