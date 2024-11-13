@@ -33,117 +33,100 @@ public class LRUCache {
     lRUCache.get(3);    // 返回 3
     lRUCache.get(4);    // 返回 4
      */
-    private int count = 0;
-    private int capacity;
-    private Map<Integer, DLinkedNode> map;
-    private DLinkedNode dummyHeadNode;
-    private DLinkedNode tailNode;
-
-    public LRUCache(int capacity) {
-        this.capacity = capacity;
-        this.map = new HashMap(capacity);
-        this.dummyHeadNode = new DLinkedNode(-1, -1);
-        this.tailNode = dummyHeadNode;
-    }
-
     private static class DLinkedNode {
         public int key;
         public int val;
         public DLinkedNode prev;
         public DLinkedNode next;
 
+        public DLinkedNode() {}
         public DLinkedNode(int key, int val) {
             this.key = key;
             this.val = val;
         }
+    }
 
-        public int hashCode() {
-            return key + val;
-        }
 
-        public boolean equals(Object o) {
-            DLinkedNode n = (DLinkedNode)o;
-            return this.key == n.key && this.val == n.val;
-        }
+    //size 实际长度
+    private int size;
+    //capacity 允许的容量
+    private int capacity;
+    private DLinkedNode headNode;
+    private DLinkedNode tailNode;
+    //缓存map
+    private Map<Integer, DLinkedNode> cache = new HashMap<>();
 
-        public String toString() {
-            return "val:"+val + " prev:" + (prev == null? null : prev.val) + " next:" + (next == null ? null : next.val);
-        }
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        headNode = new DLinkedNode();
+        tailNode = new DLinkedNode();
+        headNode.next = tailNode;
+        tailNode.prev = headNode;
     }
 
     public int get(int key) {
         //访问这个元素，如果存在，把这个元素提到队头
-        DLinkedNode keyDLinkedNode = map.get(key);
-        if(keyDLinkedNode == null) {
+        DLinkedNode node = cache.get(key);
+        if(node == null) {
             return -1;
         }
 
-        refreshList(keyDLinkedNode);
-        return keyDLinkedNode.val;
+        refreshList(node);
+        return node.val;
     }
 
     public void put(int key, int value) {
-        //放入已存在值
-        if(map.get(key) != null) {
-            DLinkedNode node = map.get(key);
-            node.val = value;
+        //放入已存在值,map的价值，查找的时间复杂度O(1)
+        if(cache.get(key) != null) {
+            DLinkedNode keyNode = cache.get(key);
+            keyNode.val = value;
             //更新这个key
-            refreshList(node);
+            refreshList(keyNode);
             return;
         }
 
         //放入不存在值
-        //检查是否到达容量上限
-        if(this.count == capacity) {
+        //检查是否到达容量上限，先删除出空位
+        if(size == capacity) {
             //如果到达，node和map都删除队尾的一个元素后，再put
-            DLinkedNode lastDLinkedNode = remove(tailNode);
-            map.remove(lastDLinkedNode.key);
-            this.count--;
+            DLinkedNode lastNode = remove(tailNode);
+            cache.remove(lastNode.key);
+            size--;
         }
-        //如果未到达，直接put
-        DLinkedNode newDLinkedNode = new DLinkedNode(key, value);
-        addFirst(newDLinkedNode);
-        map.put(key, newDLinkedNode);
-        this.count++;
+        //put插入
+        DLinkedNode node = new DLinkedNode(key, value);
+        addFirst(node);
+        cache.put(key, node);
+        this.size++;
 
     }
 
-    private void refreshList(DLinkedNode dLinkedNode) {
-        remove(dLinkedNode);
-        addFirst(dLinkedNode);
+    private void refreshList(DLinkedNode node) {
+        remove(node);
+        addFirst(node);
     }
 
-    private void addFirst(DLinkedNode dLinkedNode) {
-        DLinkedNode firstDLinkedNode = dummyHeadNode.next;
-        dummyHeadNode.next = dLinkedNode;
-        dLinkedNode.next = firstDLinkedNode;
-        dLinkedNode.prev = dummyHeadNode;
-
-        if(firstDLinkedNode != null) {
-            firstDLinkedNode.prev = dLinkedNode;
-        }
-
-        if(tailNode == dummyHeadNode) {
-            tailNode = dLinkedNode;
-        }
+    private void addFirst(DLinkedNode node) {
+        node.prev = headNode;
+        node.next = headNode.next;
+        headNode.next.prev = node;
+        headNode.next = node;
     }
 
-    private DLinkedNode remove(DLinkedNode dLinkedNode) {
-
-        DLinkedNode prevDLinkedNode = dLinkedNode.prev;
-        DLinkedNode nextDLinkedNode = dLinkedNode.next;
-        if(tailNode == dLinkedNode) {
-            tailNode = prevDLinkedNode;
+    private DLinkedNode remove(DLinkedNode node) {
+        DLinkedNode prevNode = node.prev;
+        DLinkedNode nextNode = node.next;
+        if(tailNode == node) {
+            tailNode = prevNode;
         }
-        prevDLinkedNode.next = nextDLinkedNode;
-        if(nextDLinkedNode != null) {
-            nextDLinkedNode.prev = prevDLinkedNode;
+        prevNode.next = nextNode;
+        if(nextNode != null) {
+            nextNode.prev = prevNode;
         }
 
-        dLinkedNode.next = null;
-        dLinkedNode.prev = null;
-
-        return dLinkedNode;
+        node.next = null;
+        node.prev = null;
+        return node;
     }
 
 }
