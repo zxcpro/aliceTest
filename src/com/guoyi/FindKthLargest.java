@@ -17,7 +17,7 @@ public class FindKthLargest {
     也就是升序排序后，倒数第k个数字，就是第k大
     https://leetcode.cn/problems/kth-largest-element-in-an-array/solutions/2361969/215-shu-zu-zhong-de-di-k-ge-zui-da-yuan-d786p/
      */
-    private int findKthLargest(int[] nums, int k) {
+    public int findKthLargest(int[] nums, int k) {
         List<Integer> numList = new ArrayList<>();
         for (int num : nums) {
             numList.add(num);
@@ -53,6 +53,7 @@ public class FindKthLargest {
         //第k大就是和这个数字一样
         return randomNum;
     }
+
 
 
     public static void main(String[] args) {

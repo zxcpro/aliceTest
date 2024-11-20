@@ -1,5 +1,9 @@
 package com.guoyi;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MaxSubArray {
 
     /*
@@ -33,4 +37,6 @@ public class MaxSubArray {
         System.out.println(i);
 
     }
+
+
 }
