@@ -26,23 +26,22 @@ public class SortArray {
 
 
     private int partition(int[] nums, int left, int right) {
-        int randomIndex = RANDOM.nextInt(right - left + 1) + left;
-        swap(nums, left, randomIndex);
-
-        // 基准值
-        int pivot = nums[left];
-        int lt = left;
-        // 循环不变量：
-        // all in [left + 1, lt] < pivot
-        // all in [lt + 1, i) >= pivot
-        for (int i = left + 1; i <= right; i++) {
-            if (nums[i] < pivot) {
-                lt++;
-                swap(nums, i, lt);
-            }
+        // 以 nums[left] 为基准数
+        int i = left, j = right;
+        while (i < j) {
+            // 从右向左找首个小于基准数的元素
+            while (i < j && nums[j] >= nums[left])
+                j--;
+            // 从左向右找首个大于基准数的元素
+            while (i < j && nums[i] <= nums[left])
+                i++;
+            // 交换这两个元素
+            swap(nums, i, j);
         }
-        swap(nums, left, lt);
-        return lt;
+        // 将基准数交换至两子数组的分界线
+        swap(nums, i, left);
+        // 返回基准数的索引
+        return i;
     }
 
     private void swap(int[] nums, int index1, int index2) {
