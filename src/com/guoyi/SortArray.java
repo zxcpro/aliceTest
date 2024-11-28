@@ -1,13 +1,8 @@
 package com.guoyi;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class SortArray {
-
-    private static final Random RANDOM = new Random();
-
 
     //912 快速排序
 
