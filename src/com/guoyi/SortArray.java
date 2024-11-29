@@ -5,6 +5,8 @@ import java.util.Random;
 public class SortArray {
 
     //912 快速排序
+    //https://www.hello-algo.com/chapter_sorting/quick_sort/#__tabbed_1_8
+
 
     public int[] sortArray(int[] nums) {
         int len = nums.length;
