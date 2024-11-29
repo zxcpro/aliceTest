@@ -14,22 +14,31 @@ public class SortArray {
 
     private void quickSort(int[] nums, int left, int right) {
 
-        int pIndex = partition(nums, left, right);
-        quickSort(nums, left, pIndex - 1);
-        quickSort(nums, pIndex + 1, right);
+        if (left >= right) {
+            return;
+        }
+        // 哨兵划分
+        int pivot = partition(nums, left, right);
+        // 递归左子数组、右子数组
+        quickSort(nums, left, pivot - 1);
+        quickSort(nums, pivot + 1, right);
     }
 
 
+    //哨兵划分，哨兵找到正确位置
     private int partition(int[] nums, int left, int right) {
         // 以 nums[left] 为基准数
+        int num = nums[left];
         int i = left, j = right;
         while (i < j) {
             // 从右向左找首个小于基准数的元素
-            while (i < j && nums[j] >= nums[left])
+            while (i < j && nums[j] >= num) {
                 j--;
+            }
             // 从左向右找首个大于基准数的元素
-            while (i < j && nums[i] <= nums[left])
+            while (i < j && nums[i] <= num) {
                 i++;
+            }
             // 交换这两个元素
             swap(nums, i, j);
         }
@@ -39,13 +48,19 @@ public class SortArray {
         return i;
     }
 
-    private void swap(int[] nums, int index1, int index2) {
-        int temp = nums[index1];
-        nums[index1] = nums[index2];
-        nums[index2] = temp;
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 
 
+    public static void main(String[] args) {
+        SortArray sortArray = new SortArray();
+        int[] nums = {2,1,4,0,3};
+        sortArray.sortArray(nums);
+        System.out.println(nums);
+    }
 
     /**
      * 对数组 nums 的子区间 [left, right] 使用插入排序
